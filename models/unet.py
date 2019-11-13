@@ -5,8 +5,8 @@ from keras.layers.core import Activation, Dropout
 from keras.layers.normalization import BatchNormalization
 from keras.optimizers import Adam
 from keras.models import Model
-from tensorflow.keras import backend as K
 import tensorflow as tf
+from tf.keras import backend as K
 
 from .losses import *
 
