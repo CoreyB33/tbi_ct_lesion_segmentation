@@ -107,16 +107,16 @@ if __name__ == "__main__":
 
     ######### PREPROCESS TRAINING DATA #########
     DATA_DIR = os.path.join("data", "train")
-    PREPROCESSED_DIR = os.path.join(DATA_DIR, "preprocessed")
-    SKULLSTRIP_SCRIPT_PATH = os.path.join("utils", "CT_BET.sh")
+    # PREPROCESSED_DIR = os.path.join(DATA_DIR, "preprocessed")
+    # SKULLSTRIP_SCRIPT_PATH = os.path.join("utils", "CT_BET.sh")
 
-    preprocess.preprocess_dir(DATA_DIR,
-                              PREPROCESSED_DIR,
-                              SKULLSTRIP_SCRIPT_PATH,)
+    # preprocess.preprocess_dir(DATA_DIR,
+      #                        PREPROCESSED_DIR,
+       #                       SKULLSTRIP_SCRIPT_PATH,)
 
     ######### DATA IMPORT #########
     ct_patches, mask_patches = patch_ops.CreatePatchesForTraining(
-        atlasdir=PREPROCESSED_DIR,
+        atlasdir=DATA_DIR,
         plane=plane,
         patchsize=PATCH_SIZE,
         max_patch=num_patches,
