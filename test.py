@@ -86,9 +86,9 @@ if __name__ == "__main__":
                  if not os.path.isdir((os.path.join(DATA_DIR, x)))]
     filenames.sort()
 
-    preprocess.preprocess_dir(DATA_DIR,
-                              PREPROCESSING_DIR,
-                              SKULLSTRIP_SCRIPT_PATH)
+    # preprocess.preprocess_dir(DATA_DIR,
+      #                        PREPROCESSING_DIR,
+       #                       SKULLSTRIP_SCRIPT_PATH)
 
     ######################## SEGMENT FILES ########################
     filenames = [x for x in os.listdir(PREPROCESSING_DIR)
@@ -187,12 +187,12 @@ if __name__ == "__main__":
         gt_vols.append(cur_vol_gt)
 
         # Reorient back to original before comparisons
-        print("Reorienting...")
-        utils.reorient(filename, DATA_DIR, SEG_DIR)
+        # print("Reorienting...")
+        # utils.reorient(filename, DATA_DIR, SEG_DIR)
 
         # get probability volumes and threshold image
         print("Thresholding...")
-        utils.threshold(filename, REORIENT_DIR, REORIENT_DIR, thresh)
+        utils.threshold(filename, SEG_DIR, SEG_DIR, thresh)
 
     mean_dice = mean_dice / len(filenames)
     pred_vols = np.array(pred_vols)
