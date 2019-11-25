@@ -160,10 +160,10 @@ def get_patches(invols, mask, patchsize, maxpatch, num_channels):
     newidx = np.concatenate([shuffled_mask_lesion_indices,
                              shuffled_healthy_brain_indices], axis=1)
 
-    CT_matsize = (2*num_patches, patchsize[0], patchsize[1], num_channels)
+    t1_matsize = (2*num_patches, patchsize[0], patchsize[1], num_channels)
     Mask_matsize = (2*num_patches, patchsize[0], patchsize[1], 1)
 
-    CTPatches = np.ndarray(CT_matsize, dtype=np.float16)
+    t1Patches = np.ndarray(t1_matsize, dtype=np.float16)
     MaskPatches = np.ndarray(Mask_matsize, dtype=np.float16)
 
     for i in range(0, 2*num_patches):
@@ -180,7 +180,7 @@ def get_patches(invols, mask, patchsize, maxpatch, num_channels):
             '''
 
             # trying even-sided patches
-            CTPatches[i, :, :, c] = invols[c][I - dsize[0]: I + dsize[0],
+            t1Patches[i, :, :, c] = invols[c][I - dsize[0]: I + dsize[0],
                                               J - dsize[1]: J + dsize[1],
                                               K]
 
@@ -194,10 +194,10 @@ def get_patches(invols, mask, patchsize, maxpatch, num_channels):
                                        J - dsize[1]:J + dsize[1],
                                        K]
 
-    CTPatches = np.asarray(CTPatches, dtype=np.float16)
+    t1Patches = np.asarray(t1Patches, dtype=np.float16)
     MaskPatches = np.asarray(MaskPatches, dtype=np.float16)
 
-    return CTPatches, MaskPatches
+    return t1Patches, MaskPatches
 
 
 def CreatePatchesForTraining(atlasdir, plane, patchsize, max_patch=150000, num_channels=1):
@@ -210,13 +210,17 @@ def CreatePatchesForTraining(atlasdir, plane, patchsize, max_patch=150000, num_c
     '''
 
     # get filenames
-    ct_names = os.listdir(atlasdir)
+    # Adding in flair patch
+    t1_names = os.listdir(atlasdir)
+    flair_names = os.listdir(atlasdir)
     mask_names = os.listdir(atlasdir)
 
-    ct_names = [x for x in ct_names if "CT" in x]
+    t1_names = [x for x in t1_names if "t1" in x]
+    flair_names = [x for x in flair_names if "rflair" in x]
     mask_names = [x for x in mask_names if "mask" in x]
 
-    ct_names.sort()
+    t1_names.sort()
+    flair_names.sort()
     mask_names.sort()
 
     numatlas = len(ct_names)
@@ -241,20 +245,20 @@ def CreatePatchesForTraining(atlasdir, plane, patchsize, max_patch=150000, num_c
     # note here we double the size of the tensors to allow for healthy patches too
     doubled_num_patches = total_num_patches * 2
     if plane == "axial":
-        CT_matsize = (doubled_num_patches,
+        t1_matsize = (doubled_num_patches,
                       patchsize[0], patchsize[1], num_channels)
         Mask_matsize = (doubled_num_patches, patchsize[0], patchsize[1], 1)
     elif plane == "sagittal":
-        CT_matsize = (doubled_num_patches,
+        t1_matsize = (doubled_num_patches,
                       patchsize[0], 16, num_channels)
         Mask_matsize = (doubled_num_patches, patchsize[0], 16, 1)
     elif plane == "coronal":
-        CT_matsize = (doubled_num_patches,
+        t1_matsize = (doubled_num_patches,
                       16, patchsize[1], num_channels)
         Mask_matsize = (doubled_num_patches, 16, patchsize[1], 1)
 
 
-    CTPatches = np.zeros(CT_matsize, dtype=np.float16)
+    t1Patches = np.zeros(t1_matsize, dtype=np.float16)
     MaskPatches = np.zeros(Mask_matsize, dtype=np.float16)
 
     indices = [x for x in range(doubled_num_patches)]
@@ -268,12 +272,14 @@ def CreatePatchesForTraining(atlasdir, plane, patchsize, max_patch=150000, num_c
     planar_code = planar_codes[plane]
 
     for i in tqdm(range(0, numatlas)):
-        ctname = ct_names[i]
-        ctname = os.path.join(atlasdir, ctname)
+        t1name = t1_names[i]
+        t1name = os.path.join(atlasdir, t1name)
+        flairname = flair_names[i]
+        flairname = os.path.join(atlasdir, flairname)
 
-        temp = nib.load(ctname)
-        ct = temp.get_data()
-        ct = np.asarray(ct, dtype=np.float16)
+        temp = nib.load(t1name)
+        t1 = temp.get_data()
+        t1 = np.asarray(t1, dtype=np.float16)
 
         maskname = mask_names[i]
         maskname = os.path.join(atlasdir, maskname)
@@ -284,34 +290,34 @@ def CreatePatchesForTraining(atlasdir, plane, patchsize, max_patch=150000, num_c
         # here, need to ensure that the CT and mask tensors
         # are padded out to larger than the size of the requested
         # patches, to allow for patches to be gathered from edges
-        ct = PadImage(ct, padsize)
+        t1 = PadImage(t1, padsize)
         mask = PadImage(mask, padsize)
 
-        ct = np.transpose(ct, axes=planar_code)
+        t1 = np.transpose(t1, axes=planar_code)
         mask = np.transpose(mask, axes=planar_code)
 
-        invols = [ct]  # can handle multichannel here
+        invols = [t1]  # can handle multichannel here
 
         # adjusting patch size after transpose
         if planar_code != planar_codes["axial"]:
-            if ct.shape[0] < ct.shape[1]:
-                patchsize = (ct.shape[0]//4, patchsize[1])
-            if ct.shape[1] < ct.shape[0]:
-                patchsize = (patchsize[0], ct.shape[1]//4)
+            if t1.shape[0] < t1.shape[1]:
+                patchsize = (t1.shape[0]//4, patchsize[1])
+            if t1.shape[1] < t1.shape[0]:
+                patchsize = (patchsize[0], t1.shape[1]//4)
         patchsize = np.asarray(patchsize, dtype=int)
 
-        CTPatchesA, MaskPatchesA = get_patches(invols,
+        t1PatchesA, MaskPatchesA = get_patches(invols,
                                                mask,
                                                patchsize,
                                                single_subject_num_patches,
                                                num_channels,)
 
-        CTPatchesA = np.asarray(CTPatchesA, dtype=np.float16)
+        t1PatchesA = np.asarray(t1PatchesA, dtype=np.float16)
         MaskPatchesA = np.asarray(MaskPatchesA, dtype=np.float16)
 
-        for ct_patch, mask_patch in zip(CTPatchesA, MaskPatchesA):
-            CTPatches[indices[cur_idx], :, :, :] = ct_patch
+        for t1_patch, mask_patch in zip(t1PatchesA, MaskPatchesA):
+            t1Patches[indices[cur_idx], :, :, :] = t1_patch
             MaskPatches[indices[cur_idx], :, :, :] = mask_patch
             cur_idx += 1
 
-    return (CTPatches, MaskPatches)
+    return (t1Patches, MaskPatches)
