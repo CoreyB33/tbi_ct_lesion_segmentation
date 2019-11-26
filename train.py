@@ -115,20 +115,20 @@ if __name__ == "__main__":
        #                       SKULLSTRIP_SCRIPT_PATH,)
 
     ######### DATA IMPORT #########
-    ct_patches, mask_patches = patch_ops.CreatePatchesForTraining(
+    t1_patches, mask_patches = patch_ops.CreatePatchesForTraining(
         atlasdir=DATA_DIR,
         plane=plane,
         patchsize=PATCH_SIZE,
         max_patch=num_patches,
         num_channels=num_channels)
 
-    print("Individual patch dimensions:", ct_patches[0].shape)
-    print("Num patches:", len(ct_patches))
+    print("Individual patch dimensions:", t1_patches[0].shape)
+    print("Num patches:", len(t1_patches))
     print("ct_patches shape: {}\nmask_patches shape: {}".format(
-        ct_patches.shape, mask_patches.shape))
+        t1_patches.shape, mask_patches.shape))
 
     ######### TRAINING #########
-    history = model.fit(ct_patches,
+    history = model.fit(t1_patches,
                         mask_patches,
                         batch_size=batch_size,
                         epochs=num_epochs,
