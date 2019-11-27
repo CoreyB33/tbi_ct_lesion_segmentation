@@ -124,7 +124,7 @@ if __name__ == "__main__":
 
     print("Individual patch dimensions:", t1_patches[0].shape)
     print("Num patches:", len(t1_patches))
-    print("ct_patches shape: {}\nmask_patches shape: {}".format(
+    print("t1_patches shape: {}\nmask_patches shape: {}".format(
         t1_patches.shape, mask_patches.shape))
 
     ######### TRAINING #########
