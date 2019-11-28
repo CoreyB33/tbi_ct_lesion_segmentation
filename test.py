@@ -93,14 +93,14 @@ if __name__ == "__main__":
     ######################## SEGMENT FILES ########################
     filenames = [x for x in os.listdir(PREPROCESSING_DIR)
                  if not os.path.isdir(os.path.join(PREPROCESSING_DIR, x))]
-    masks = [x for x in filenames if "mask" in x]
-    filenames = [x for x in filenames if "CT" in x]
+    masks = [x for x in filenames if "PVS" in x]
+    filenames = [x for x in filenames if "t1" in x]
 
     filenames.sort()
     masks.sort()
 
     if len(filenames) != len(masks):
-        print("Error, file missing. #CT:{}, #masks:{}".format(
+        print("Error, file missing. #t1:{}, #masks:{}".format(
             len(filenames), len(masks)))
 
     print("Using model:", model_filename)
