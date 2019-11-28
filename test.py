@@ -91,8 +91,8 @@ if __name__ == "__main__":
        #                       SKULLSTRIP_SCRIPT_PATH)
 
     ######################## SEGMENT FILES ########################
-    filenames = [x for x in os.listdir(PREPROCESSING_DIR)
-                 if not os.path.isdir(os.path.join(PREPROCESSING_DIR, x))]
+    filenames = [x for x in os.listdir(DATA_DIR)
+                 if not os.path.isdir(os.path.join(DATA_DIR, x))]
     masks = [x for x in filenames if "PVS" in x]
     filenames = [x for x in filenames if "t1" in x]
 
@@ -115,13 +115,13 @@ if __name__ == "__main__":
 
     for filename, mask in zip(filenames, masks):
         # load nifti file data
-        nii_obj = nib.load(os.path.join(PREPROCESSING_DIR, filename))
+        nii_obj = nib.load(os.path.join(DATA_DIR, filename))
         nii_img = nii_obj.get_data()
         header = nii_obj.header
         affine = nii_obj.affine
 
         # load mask file data
-        mask_obj = nib.load(os.path.join(PREPROCESSING_DIR, mask))
+        mask_obj = nib.load(os.path.join(DATA_DIR, mask))
         mask_img = mask_obj.get_data()
 
         # pad and reshape to account for implicit "1" channel
