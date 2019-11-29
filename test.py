@@ -94,7 +94,9 @@ if __name__ == "__main__":
     filenames = [x for x in os.listdir(DATA_DIR)
                  if not os.path.isdir(os.path.join(DATA_DIR, x))]
     masks = [x for x in filenames if "PVS" in x]
-    filenames = [x for x in filenames if "t1" in x]
+    # Using 4D file instead of just t1
+    filenames = [x for x in filenames if "multi" in x]
+    
 
     filenames.sort()
     masks.sort()
@@ -139,7 +141,8 @@ if __name__ == "__main__":
 
 
         # segment
-        segmented_img = apply_model_single_input(nii_img, model)
+        # changing from apply_model_single_input to apply_model
+        segmented_img = apply_model(nii_img, model)
         pred_shape = segmented_img.shape
 
         # create nii obj
