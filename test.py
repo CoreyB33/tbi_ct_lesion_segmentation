@@ -141,8 +141,7 @@ if __name__ == "__main__":
 
 
         # segment
-        # changing from apply_model_single_input to apply_model
-        segmented_img = apply_model(nii_img, model)
+        segmented_img = apply_model_single_input(nii_img, model)
         pred_shape = segmented_img.shape
 
         # create nii obj
