@@ -41,8 +41,8 @@ def apply_model(img_volume, model):
         # the [1] index is the auxiliary output
         #print("pred shape = {}".format(pred.shape))
         #print("pred [0]={}".format(pred[0].shape))
-        # Changed from pred[0][0,:,:,0] to pred[0][:,:,0]
-        out_vol[:, :, k] = pred[0][:, :, 0]
+
+        out_vol[:, :, k] = pred[0][0,:, :, 0]
 
     return out_vol
 
