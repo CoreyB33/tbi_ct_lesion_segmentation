@@ -44,6 +44,7 @@ def pad_image(img_data, target_dims=None):
     new_img = np.zeros((target_dims))
 
     print("Img_data.shape = {}".format(img_data.shape))
+    print("Length of Img_data.shape = {}".format(len(img_data.shape)))
     
     if len(img_data.shape) == 4:
         for c in range(num_channels):
