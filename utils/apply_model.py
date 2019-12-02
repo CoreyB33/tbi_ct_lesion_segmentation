@@ -35,8 +35,8 @@ def apply_model(img_volume, model):
         # the [0] index at the start refers to the first of two outputs,
         # since this is a dual-output network
         # the [1] index is the auxiliary output
-        ## Adding in an extra 0
-        out_vol[:, :, k] = pred[0][0, :, :, 0]
+        ## Not sure why this is not working but may need to remove zero after pred[0][ since the size of the array does not seem to match that
+        out_vol[:, :, k] = pred[0][:, :, 0]
 
     return out_vol
 
