@@ -5,7 +5,7 @@ def pad_image(img_data, target_dims=None):
     Pads the image to the nearest greater multiple of 16.
     This is due to the downsample/upsample count in the Unet.
     '''
-    print("length of image data shape = {}".format(len(img_data.shape)))
+    print("length of image data shape from pad.py= {}".format(len(img_data.shape)))
     # pad to nearest greater multiple of 2**NUM_DOWNSAMPLES
     # if target_dims not provided
     if not target_dims:
