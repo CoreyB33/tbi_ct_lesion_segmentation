@@ -34,7 +34,7 @@ def apply_model(img_volume, model):
 
             
         #May need to change to ([img_slice[0,:,:,0], img_slice[0,:,:,1])
-        pred = model.predict([img_slice[0,:,:,0], img_slice[0,:,:,1]])
+        pred = model.predict([img_slice, aux_slice])
          
         # the [0] index at the start refers to the first of two outputs,
         # since this is a dual-output network
@@ -42,7 +42,7 @@ def apply_model(img_volume, model):
         #print("pred shape = {}".format(pred.shape))
         #print("pred [0]={}".format(pred[0].shape))
         # Changed from pred[0][0,:,:,0] to pred[0][:,:,0]
-        out_vol[:, :, k] = pred[0][:, :, 0]
+        out_vol[:, :, k] = pred[0][0,:, :, 0]
 
     return out_vol
 
