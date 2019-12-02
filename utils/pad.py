@@ -14,7 +14,6 @@ def pad_image(img_data, target_dims=None):
         target_dims = [int(np.ceil(x/scaling)) * scaling for x in img_data.shape[:3]]
 
     target_dims = list(target_dims)
-    print("Length of img_data.shape = {}".format(len(img_data.shape)))
     # handle number of channels
     ## Hacking for 5 instead of 4
     if len(img_data.shape) == 5:
@@ -49,11 +48,7 @@ def pad_image(img_data, target_dims=None):
     
     #new_img = np.zeros((target_dims))
     new_img = np.zeros([256,256,170,2])
-    print("Img_data.shape = {}".format(img_data.shape))
-    print("Length of Img_data.shape = {}".format(len(img_data.shape)))
-    print("Target dims = {}".format(target_dims))
-    print("Num Channels = {}".format(num_channels))
-    print("new image shape = {}".format(new_img.shape))
+
     # Hacking to look for 5 instead of 4, adding extra channel setting to 0
     if len(img_data.shape) == 5:
         for c in range(num_channels):
