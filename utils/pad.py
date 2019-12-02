@@ -15,15 +15,12 @@ def pad_image(img_data, target_dims=None):
 
     target_dims = list(target_dims)
     # handle number of channels
-    ## Hacking for 5 instead of 4
-    if len(img_data.shape) == 5:
+    if len(img_data.shape) == 4:
         num_channels = img_data.shape[-1]
     else:
         num_channels = 1
     target_dims.append(num_channels)
-    
-    # Number of channels should be 2 when incorporating FLAIR data so I am just hard coding that in.
-    num_channels = 2
+
     
     print("Num Channels = {}".format(num_channels))
     
@@ -46,13 +43,12 @@ def pad_image(img_data, target_dims=None):
             (top_pad, bottom_pad),
             (front_pad, back_pad))
     
-    #new_img = np.zeros((target_dims))
-    new_img = np.zeros([256,256,170,2])
+    new_img = np.zeros((target_dims))
 
     # Hacking to look for 5 instead of 4, adding extra channel setting to 0
-    if len(img_data.shape) == 5:
+    if len(img_data.shape) == 4:
         for c in range(num_channels):
-            new_img[:,:,:,c] = np.pad(img_data[:,:,:,c,0], pads, 'constant', constant_values=0)
+            new_img[:,:,:,c] = np.pad(img_data[:,:,:,c], pads, 'constant', constant_values=0)
     else:
         new_img[:,:,:,0] = np.pad(img_data[:,:,:], pads, 'constant', constant_values=0)
         new_img = new_img[:,:,:,0]
