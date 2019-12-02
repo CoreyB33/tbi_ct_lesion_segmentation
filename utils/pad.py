@@ -21,7 +21,9 @@ def pad_image(img_data, target_dims=None):
     else:
         num_channels = 1
     target_dims.append(num_channels)
-
+    
+    print("Img_data.shape = {}".format(img_data.shape))
+    
     left_pad = round(float(target_dims[0] - img_data.shape[0]) / 2)
     right_pad = round(float(target_dims[0] - img_data.shape[0]) - left_pad)
     top_pad = round(float(target_dims[1] - img_data.shape[1]) / 2)
@@ -41,7 +43,8 @@ def pad_image(img_data, target_dims=None):
     
     new_img = np.zeros((target_dims))
 
-
+    print("Img_data.shape = {}".format(img_data.shape))
+    
     if len(img_data.shape) == 4:
         for c in range(num_channels):
             new_img[:,:,:,c] = np.pad(img_data[:,:,:,c], pads, 'constant', constant_values=0)
