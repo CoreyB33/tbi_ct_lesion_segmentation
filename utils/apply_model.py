@@ -28,13 +28,11 @@ def apply_model(img_volume, model):
             img_slice[0, :, :, c] = img_volume[:, :, k, c]
 
         pred = model.predict([img_slice, aux_slice])
-        print("Predictor = {}".format(pred.shape))
-        print("img slice size = {}".format(img_slice.shape))
-        print("num channels = {}".format(num_channels))
         # the [0] index at the start refers to the first of two outputs,
         # since this is a dual-output network
         # the [1] index is the auxiliary output
         ## Not sure why this is not working but may need to remove zero after pred[0][ since the size of the array does not seem to match that
+        # changed from pred[0][0,:,:,0]
         out_vol[:, :, k] = pred[0][:, :, 0]
 
     return out_vol
