@@ -31,8 +31,14 @@ def apply_model(img_volume, model):
     for k in tqdm(range(num_slices)):
         for c in range(num_channels):
             img_slice[0, :, :, c] = img_volume[:, :, k, c]
-
-        pred = model.predict([img_slice, aux_slice])
+            print("img slice shape = {}".format(img_slice.shape))
+            
+        #May need to change to ([img_slice[0,:,:,0], img_slice[0,:,:,1])
+        pred = model.predict([img_slice, aux_slice)
+        print("img slice shape 2 = {}".format(img_slice.shape))
+        print("aux slice shape = {}".format(aux_slice.shape))
+        print("aux unique values = {}".format(np.unique(aux_slice)))
+         
         # the [0] index at the start refers to the first of two outputs,
         # since this is a dual-output network
         # the [1] index is the auxiliary output
