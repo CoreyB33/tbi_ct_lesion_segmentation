@@ -28,7 +28,8 @@ def apply_model(img_volume, model):
             img_slice[0, :, :, c] = img_volume[:, :, k, c]
 
         pred = model.predict([img_slice, aux_slice])
-        
+        print("Predictor = {}".format(pred))
+        print("img slice size = {}".format(img_slice.shape))
         # the [0] index at the start refers to the first of two outputs,
         # since this is a dual-output network
         # the [1] index is the auxiliary output
