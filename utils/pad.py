@@ -23,6 +23,9 @@ def pad_image(img_data, target_dims=None):
         num_channels = 1
     target_dims.append(num_channels)
     
+    # Number of channels should be 2 when incorporating FLAIR data so I am just hard coding that in.
+    num_channels = 2
+    
     print("Num Channels = {}".format(num_channels))
     
     print("Img_data.shape = {}".format(img_data.shape))
