@@ -47,8 +47,8 @@ def pad_image(img_data, target_dims=None):
             (top_pad, bottom_pad),
             (front_pad, back_pad))
     
-    new_img = np.zeros((target_dims))
-
+    #new_img = np.zeros((target_dims))
+    new_img = np.zeros([256,256,170,2])
     print("Img_data.shape = {}".format(img_data.shape))
     print("Length of Img_data.shape = {}".format(len(img_data.shape)))
     print("Target dims = {}".format(target_dims))
