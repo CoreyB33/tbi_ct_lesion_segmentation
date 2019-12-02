@@ -123,6 +123,8 @@ if __name__ == "__main__":
         header = nii_obj.header
         affine = nii_obj.affine
 
+        print("nii image shape = {}".format(nii_img.shape))
+        
         # load mask file data
         mask_obj = nib.load(os.path.join(DATA_DIR, mask))
         mask_img = mask_obj.get_data()
