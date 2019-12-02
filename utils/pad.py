@@ -56,6 +56,7 @@ def pad_image(img_data, target_dims=None):
     if len(img_data.shape) == 5:
         for c in range(num_channels):
             new_img[:,:,:,c,0] = np.pad(img_data[:,:,:,c], pads, 'constant', constant_values=0)
+        new_img = new_img[:,:,:,:,0]
     else:
         new_img[:,:,:,0] = np.pad(img_data[:,:,:], pads, 'constant', constant_values=0)
         new_img = new_img[:,:,:,0]
