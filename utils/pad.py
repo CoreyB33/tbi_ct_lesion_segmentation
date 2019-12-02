@@ -23,6 +23,8 @@ def pad_image(img_data, target_dims=None):
         num_channels = 1
     target_dims.append(num_channels)
     
+    print("Num Channels = {}".format(num_channels))
+    
     print("Img_data.shape = {}".format(img_data.shape))
     
     left_pad = round(float(target_dims[0] - img_data.shape[0]) / 2)
