@@ -31,11 +31,12 @@ def apply_model(img_volume, model):
         print("Predictor = {}".format(pred.shape))
         print("img slice size = {}".format(img_slice.shape))
         print("num channels = {}".format(num_channels))
+        print("pred 0 = {}".format(pred[0]))
         # the [0] index at the start refers to the first of two outputs,
         # since this is a dual-output network
         # the [1] index is the auxiliary output
         ## Adding in an extra 0
-        out_vol[:, :, k] = pred[0][0, :, :, 0, 0]
+        out_vol[:, :, k] = pred[0][0, :, :, 0]
 
     return out_vol
 
