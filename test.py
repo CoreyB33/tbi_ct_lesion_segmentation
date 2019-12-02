@@ -134,7 +134,7 @@ if __name__ == "__main__":
         # nii_img = np.reshape(nii_img, nii_img.shape + (1,))
         orig_shape = nii_img.shape
 
-        print("nii img shape = {}".format(nii_img.shape))
+        print("nii img shape from test.py= {}".format(nii_img.shape))
         
         # if the mask is larger, pad to hardcoded value 
         if mask_img.shape[0] > nii_img.shape[0] or mask_img.shape[1] > nii_img.shape[1]:
