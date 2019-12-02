@@ -51,7 +51,9 @@ def pad_image(img_data, target_dims=None):
 
     print("Img_data.shape = {}".format(img_data.shape))
     print("Length of Img_data.shape = {}".format(len(img_data.shape)))
-    
+    print("Target dims = {}".format(target_dims))
+    print("Num Channels = {}".format(num_channels))
+    print("new image shape = {}".format(new_img.shape))
     # Hacking to look for 5 instead of 4, adding extra channel setting to 0
     if len(img_data.shape) == 5:
         for c in range(num_channels):
