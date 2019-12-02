@@ -14,19 +14,19 @@ def apply_model(img_volume, model):
         - out_vol: 3D ndarray, segmented volume (the "1" channel is implicit)
     '''
     num_channels = img_volume.shape[-1]
-    print("number channels in apply model = {}".format(num_channels))
+    #print("number channels in apply model = {}".format(num_channels))
     num_slices = img_volume.shape[2]
-    print("number slices in apply model = {}".format(num_slices))
+    #print("number slices in apply model = {}".format(num_slices))
 
     dim3D = img_volume.shape[:-1]
-    print("dim 3D in apply model = {}".format(dim3D))
+    #print("dim 3D in apply model = {}".format(dim3D))
     dim2D = np.array([1, dim3D[0], dim3D[1], num_channels], dtype=int)
-    print("dim 2D in apply model = {}".format(dim2D))
+    #print("dim 2D in apply model = {}".format(dim2D))
 
     img_slice = np.zeros(dim2D, dtype=float)
     aux_slice = np.zeros(dim2D, dtype=float)
     out_vol = np.zeros(dim3D, dtype=float)
-    print("out vol = {}".format(out_vol.shape))
+    #print("out vol = {}".format(out_vol.shape))
 
     for k in tqdm(range(num_slices)):
         for c in range(num_channels):
@@ -36,8 +36,8 @@ def apply_model(img_volume, model):
         # the [0] index at the start refers to the first of two outputs,
         # since this is a dual-output network
         # the [1] index is the auxiliary output
-        print("pred shape = {}".format(pred.shape))
-        print("pred [0]={}".format(pred[0].shape))
+        #print("pred shape = {}".format(pred.shape))
+        #print("pred [0]={}".format(pred[0].shape))
         # Changed from pred[0][0,:,:,0] to pred[0][:,:,0]
         out_vol[:, :, k] = pred[0][:, :, 0]
 
