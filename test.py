@@ -95,7 +95,7 @@ if __name__ == "__main__":
     filenames = [x for x in os.listdir(DATA_DIR)
                  if not os.path.isdir(os.path.join(DATA_DIR, x))]
     masks = [x for x in filenames if "PVS" in x]
-    # Using 4D file instead of just t1
+    # Using 4D file instead of just t1, if using just t1, use "t1" instead of "multi"
     filenames = [x for x in filenames if "multi" in x]
     
 
@@ -123,18 +123,18 @@ if __name__ == "__main__":
         header = nii_obj.header
         affine = nii_obj.affine
 
-        print("nii image shape = {}".format(nii_img.shape))
+        #print("nii image shape = {}".format(nii_img.shape))
         
         # load mask file data
         mask_obj = nib.load(os.path.join(DATA_DIR, mask))
         mask_img = mask_obj.get_data()
 
         # pad and reshape to account for implicit "1" channel
-        ## I feel like this is causing the problem. Going to comment it out and see what happens
-        # nii_img = np.reshape(nii_img, nii_img.shape + (2,))
+        # Uncomment if using just t1
+        # nii_img = np.reshape(nii_img, nii_img.shape + (1,))
         orig_shape = nii_img.shape
 
-        print("nii img shape from test.py= {}".format(nii_img.shape))
+        #print("nii img shape from test.py= {}".format(nii_img.shape))
         
         # if the mask is larger, pad to hardcoded value 
         if mask_img.shape[0] > nii_img.shape[0] or mask_img.shape[1] > nii_img.shape[1]:
