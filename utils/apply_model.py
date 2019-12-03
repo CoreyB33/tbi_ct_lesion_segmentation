@@ -20,7 +20,9 @@ def apply_model(img_volume, model):
 
     dim3D = img_volume.shape[:-1]
     #print("dim 3D in apply model = {}".format(dim3D))
+    
     dim2D = np.array([1, dim3D[0], dim3D[1], num_channels], dtype=int)
+    #dim2D = np.array([dim3D[0], dim3D[1], num_channels], dtype=int)
     #print("dim 2D in apply model = {}".format(dim2D))
 
     img_slice = np.zeros(dim2D, dtype=float)
