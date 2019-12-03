@@ -130,8 +130,9 @@ if __name__ == "__main__":
         mask_img = mask_obj.get_data()
 
         # pad and reshape to account for implicit "1" channel
+        # Changing to 2
         ## I feel like this is causing the problem. Going to comment it out and see what happens
-        nii_img = np.reshape(nii_img, nii_img.shape + (1,))
+        nii_img = np.reshape(nii_img, nii_img.shape + (2,))
         orig_shape = nii_img.shape
 
         print("nii img shape from test.py= {}".format(nii_img.shape))
