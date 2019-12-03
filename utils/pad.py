@@ -5,7 +5,7 @@ def pad_image(img_data, target_dims=None):
     Pads the image to the nearest greater multiple of 16.
     This is due to the downsample/upsample count in the Unet.
     '''
-    print("length of image data shape from pad.py= {}".format(len(img_data.shape)))
+    #print("length of image data shape from pad.py= {}".format(len(img_data.shape)))
     # pad to nearest greater multiple of 2**NUM_DOWNSAMPLES
     # if target_dims not provided
     if not target_dims:
@@ -14,7 +14,7 @@ def pad_image(img_data, target_dims=None):
         target_dims = [int(np.ceil(x/scaling)) * scaling for x in img_data.shape[:3]]
 
     target_dims = list(target_dims)
-    print("lenght of img_data shape = {}".format(len(img_data.shape)))
+    #print("lenght of img_data shape = {}".format(len(img_data.shape)))
     # handle number of channels
     if len(img_data.shape) == 4:
         num_channels = img_data.shape[-1]
@@ -23,9 +23,9 @@ def pad_image(img_data, target_dims=None):
     target_dims.append(num_channels)
 
     
-    print("Num Channels = {}".format(num_channels))
+    #print("Num Channels = {}".format(num_channels))
     
-    print("Img_data.shape = {}".format(img_data.shape))
+    #print("Img_data.shape = {}".format(img_data.shape))
     
     left_pad = round(float(target_dims[0] - img_data.shape[0]) / 2)
     right_pad = round(float(target_dims[0] - img_data.shape[0]) - left_pad)
@@ -46,7 +46,6 @@ def pad_image(img_data, target_dims=None):
     
     new_img = np.zeros((target_dims))
 
-    # Hacking to look for 5 instead of 4, adding extra channel setting to 0
     if len(img_data.shape) == 4:
         for c in range(num_channels):
             new_img[:,:,:,c] = np.pad(img_data[:,:,:,c], pads, 'constant', constant_values=0)
