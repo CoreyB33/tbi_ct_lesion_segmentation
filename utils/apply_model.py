@@ -68,6 +68,7 @@ def apply_model_single_input(img_volume, model):
     img_slice = np.zeros(dim2D, dtype=float)
     out_vol = np.zeros(dim3D, dtype=float)
 
+    print("num channels = {}".format(num_channels))
     for k in tqdm(range(num_slices)):
         for c in range(num_channels):
             img_slice[0, :, :, c] = img_volume[:, :, k, c]
