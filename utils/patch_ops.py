@@ -218,7 +218,7 @@ def CreatePatchesForTraining(atlasdir, plane, patchsize, max_patch=150000, num_c
     # get filenames
     # Adding in flair patch
     t1_names = os.listdir(atlasdir)
-    flair_names = os.listdir(atlasdir)
+    #flair_names = os.listdir(atlasdir)
     mask_names = os.listdir(atlasdir)
 
     t1_names = [x for x in t1_names if "t1_masked_rescale" in x]
@@ -291,7 +291,7 @@ def CreatePatchesForTraining(atlasdir, plane, patchsize, max_patch=150000, num_c
         t1 = temp.get_data()
         t1 = np.asarray(t1, dtype=np.float16)
         
-        temp = nib.load(flairname)
+        #temp = nib.load(flairname)
         #flair = temp.get_data()
         #flair = np.asarray(flair, dtype=np.float16)
 
