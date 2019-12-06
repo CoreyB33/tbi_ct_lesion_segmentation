@@ -221,8 +221,8 @@ def CreatePatchesForTraining(atlasdir, plane, patchsize, max_patch=150000, num_c
     flair_names = os.listdir(atlasdir)
     mask_names = os.listdir(atlasdir)
 
-    t1_names = [x for x in t1_names if "t1" in x]
-    flair_names = [x for x in flair_names if "rflair" in x]
+    t1_names = [x for x in t1_names if "t1_masked_rescale" in x]
+    #flair_names = [x for x in flair_names if "rflair" in x]
     mask_names = [x for x in mask_names if "PVS" in x]
 
     t1_names.sort()
