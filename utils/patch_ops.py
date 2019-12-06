@@ -226,7 +226,7 @@ def CreatePatchesForTraining(atlasdir, plane, patchsize, max_patch=150000, num_c
     mask_names = [x for x in mask_names if "PVS" in x]
 
     t1_names.sort()
-    flair_names.sort()
+    #flair_names.sort()
     mask_names.sort()
 
     numatlas = len(t1_names)
@@ -284,16 +284,16 @@ def CreatePatchesForTraining(atlasdir, plane, patchsize, max_patch=150000, num_c
     for i in tqdm(range(0, numatlas)):
         t1name = t1_names[i]
         t1name = os.path.join(atlasdir, t1name)
-        flairname = flair_names[i]
-        flairname = os.path.join(atlasdir, flairname)
+        #flairname = flair_names[i]
+        #flairname = os.path.join(atlasdir, flairname)
 
         temp = nib.load(t1name)
         t1 = temp.get_data()
         t1 = np.asarray(t1, dtype=np.float16)
         
         temp = nib.load(flairname)
-        flair = temp.get_data()
-        flair = np.asarray(flair, dtype=np.float16)
+        #flair = temp.get_data()
+        #flair = np.asarray(flair, dtype=np.float16)
 
         maskname = mask_names[i]
         maskname = os.path.join(atlasdir, maskname)
@@ -305,11 +305,11 @@ def CreatePatchesForTraining(atlasdir, plane, patchsize, max_patch=150000, num_c
         # are padded out to larger than the size of the requested
         # patches, to allow for patches to be gathered from edges
         t1 = PadImage(t1, padsize)
-        flair = PadImage(flair, padsize)
+        #flair = PadImage(flair, padsize)
         mask = PadImage(mask, padsize)
 
         t1 = np.transpose(t1, axes=planar_code)
-        flair = np.transpose(flair, axes=planar_code)
+        #flair = np.transpose(flair, axes=planar_code)
         mask = np.transpose(mask, axes=planar_code)
 
         invols = [t1]  # can handle multichannel here
