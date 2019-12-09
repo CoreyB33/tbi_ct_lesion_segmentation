@@ -159,9 +159,10 @@ def get_patches(invols, mask, patchsize, maxpatch, num_channels):
 
     newidx = np.concatenate([shuffled_mask_lesion_indices,
                              shuffled_healthy_brain_indices], axis=1)
-
+    #t1_matsize=(4*num...
     t1_matsize = (2*num_patches, patchsize[0], patchsize[1], num_channels)
     # flair_matsize = (2*num_patches, patchsize[0], patchsize[1], num_channels)
+    #Mask_matsize=(4*num...
     Mask_matsize = (2*num_patches, patchsize[0], patchsize[1], 1)
 
     t1Patches = np.ndarray(t1_matsize, dtype=np.float16)
@@ -195,6 +196,39 @@ def get_patches(invols, mask, patchsize, maxpatch, num_channels):
                                        K]
         '''
         # trying even-sided patches
+        # First half of patches have lesions and second half do not (at the center)
+        MaskPatches[i, :, :, 0] = mask[I - dsize[0]: I + dsize[0],
+                                       J - dsize[1]:J + dsize[1],
+                                       K]
+    # Augmentation
+    for i in range(2*num_patches+1, 4*num_patches):
+        I = newidx[0, i]
+        J = newidx[1, i]
+        K = newidx[2, i]
+        
+
+        for c in range(num_channels):
+            '''
+            CTPatches[i, :, :, c] = invols[c][I - dsize[0]: I + dsize[0] + 1,
+                                              J - dsize[1]: J + dsize[1] + 1,
+                                              K]
+            '''
+
+            # trying even-sided patches
+            t1Patches[i, :, :, c] = invols[c][I - dsize[0]: I + dsize[0],
+                                              J - dsize[1]: J + dsize[1],
+                                              K]
+            # flairPatches[i, :, :, c] = invols[c][I - dsize[0]: I + dsize[0],
+              #                                   J - dsize[1]: J + dsize[1],
+               #                                  K]
+
+        '''
+        MaskPatches[i, :, :, 0] = mask[I - dsize[0]: I + dsize[0] + 1,
+                                       J - dsize[1]:J + dsize[1] + 1,
+                                       K]
+        '''
+        # trying even-sided patches
+        # First half of patches have lesions and second half do not (at the center)
         MaskPatches[i, :, :, 0] = mask[I - dsize[0]: I + dsize[0],
                                        J - dsize[1]:J + dsize[1],
                                        K]
@@ -250,9 +284,13 @@ def CreatePatchesForTraining(atlasdir, plane, patchsize, max_patch=150000, num_c
 
     # note here we double the size of the tensors to allow for healthy patches too
     doubled_num_patches = total_num_patches * 2
+    # quad_num_patches = doubled_num_patches * 2
     if plane == "axial":
+        #t1_matsize = (quad_num_patches,
+         #             patchsize[0], patchsize[1], num_channels)
         t1_matsize = (doubled_num_patches,
                       patchsize[0], patchsize[1], num_channels)
+        #Mask_matsize = (quad_num_patches, patchsize[0], patchsize[1],1)
         Mask_matsize = (doubled_num_patches, patchsize[0], patchsize[1], 1)
         # flair_matsize = (doubled_num_patches, patchsize[0], patchsize[1], num_channels)
     elif plane == "sagittal":
@@ -272,6 +310,7 @@ def CreatePatchesForTraining(atlasdir, plane, patchsize, max_patch=150000, num_c
     MaskPatches = np.zeros(Mask_matsize, dtype=np.float16)
 
     indices = [x for x in range(doubled_num_patches)]
+    #indices = [x for x in range(quad_num_patches)]
     indices = shuffle(indices, random_state=0)
     cur_idx = 0
 
@@ -279,7 +318,7 @@ def CreatePatchesForTraining(atlasdir, plane, patchsize, max_patch=150000, num_c
     planar_codes = {"axial": (0, 1, 2),
                     "sagittal": (1, 2, 0),
                     "coronal": (2, 0, 1)}
-    planar_code = planar_codes[plane]
+    t1
 
     for i in tqdm(range(0, numatlas)):
         t1name = t1_names[i]
