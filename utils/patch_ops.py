@@ -318,7 +318,7 @@ def CreatePatchesForTraining(atlasdir, plane, patchsize, max_patch=150000, num_c
     planar_codes = {"axial": (0, 1, 2),
                     "sagittal": (1, 2, 0),
                     "coronal": (2, 0, 1)}
-    t1
+    planar_code = planar_codes[plane]
 
     for i in tqdm(range(0, numatlas)):
         t1name = t1_names[i]
