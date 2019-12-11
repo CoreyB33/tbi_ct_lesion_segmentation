@@ -8,6 +8,9 @@ import random
 import copy
 from time import strftime, time
 
+import rotation
+from rotation import rotateit
+
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import sys
