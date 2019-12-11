@@ -160,10 +160,12 @@ def get_patches(invols, mask, patchsize, maxpatch, num_channels):
     newidx = np.concatenate([shuffled_mask_lesion_indices,
                              shuffled_healthy_brain_indices], axis=1)
     #t1_matsize=(4*num...
-    t1_matsize = (2*num_patches, patchsize[0], patchsize[1], num_channels)
+    t1_matsize = (4*num_patches, patchsize[0], patchsize[1], num_channels)
     # flair_matsize = (2*num_patches, patchsize[0], patchsize[1], num_channels)
     #Mask_matsize=(4*num...
-    Mask_matsize = (2*num_patches, patchsize[0], patchsize[1], 1)
+    Mask_matsize = (4*num_patches, patchsize[0], patchsize[1], 1)
+    t1_matsize_unrotated = (2*num_patches, patchsize[0], patchsize[1],num_channels)
+    Mask_matsize_unrotated = (2*num_patches, patchsize[0], patchsize[1], 1)
 
     t1Patches = np.ndarray(t1_matsize, dtype=np.float16)
     # flairPatches = np.ndarray(flair_matsize, dtype=np.float16)
@@ -201,7 +203,7 @@ def get_patches(invols, mask, patchsize, maxpatch, num_channels):
                                        J - dsize[1]:J + dsize[1],
                                        K]
     # Augmentation
-    for i in range(2*num_patches+1, 4*num_patches):
+    for i in range(0, 2*num_patches):
         I = newidx[0, i]
         J = newidx[1, i]
         K = newidx[2, i]
@@ -215,9 +217,15 @@ def get_patches(invols, mask, patchsize, maxpatch, num_channels):
             '''
 
             # trying even-sided patches
-            t1Patches[i, :, :, c] = invols[c][I - dsize[0]: I + dsize[0],
+            t1Patch_unrotated = invols[c][I - dsize[0]: I + dsize[0],
                                               J - dsize[1]: J + dsize[1],
                                               K]
+            
+            t1Patch_unrotated=t1Patch_unrotated.astype('float64')
+            t1Patch_rotated=rotateit(t1Patch_unrotated,5)
+            t1Patch_rotated=t1Patch_rotated.astype('float16')
+            
+            t1Patches[i+2*num_patches,:,:,c] = t1Patch_rotated
             # flairPatches[i, :, :, c] = invols[c][I - dsize[0]: I + dsize[0],
               #                                   J - dsize[1]: J + dsize[1],
                #                                  K]
@@ -229,9 +237,21 @@ def get_patches(invols, mask, patchsize, maxpatch, num_channels):
         '''
         # trying even-sided patches
         # First half of patches have lesions and second half do not (at the center)
-        MaskPatches[i, :, :, 0] = mask[I - dsize[0]: I + dsize[0],
-                                       J - dsize[1]:J + dsize[1],
-                                       K]
+        MaskPatch_unrotated = mask[I - dsize[0]: I + dsize[0],
+                                        J - dsize[1]:J + dsize[1],
+                                        K]
+        
+        MaskPatch_unrotated=MaskPatch_unrotated.astype('float64')
+        MaskPatch_rotated=rotateit(MaskPatch_unrotated,5)
+        MaskPatch_rotated=MaskPatch_rotated.astype('float16')
+        for i in range(0,64):
+            for j in range(0,64):
+                if MaskPatch_rotated[i,j]>0.35:
+                    MaskPatch_rotated[i,j]=1
+                else:
+                    MaskPatch_rotated[i,j]=0
+        
+        MaskPatches[i+2*num_patches,:,:,0] = MaskPatch_rotated 
 
     t1Patches = np.asarray(t1Patches, dtype=np.float16)
     # flairPatches = np.asarray(flairPatches, dtype=np.float16)
@@ -284,14 +304,14 @@ def CreatePatchesForTraining(atlasdir, plane, patchsize, max_patch=150000, num_c
 
     # note here we double the size of the tensors to allow for healthy patches too
     doubled_num_patches = total_num_patches * 2
-    # quad_num_patches = doubled_num_patches * 2
+    quad_num_patches = doubled_num_patches * 2
     if plane == "axial":
-        #t1_matsize = (quad_num_patches,
-         #             patchsize[0], patchsize[1], num_channels)
-        t1_matsize = (doubled_num_patches,
+        t1_matsize = (quad_num_patches,
                       patchsize[0], patchsize[1], num_channels)
-        #Mask_matsize = (quad_num_patches, patchsize[0], patchsize[1],1)
-        Mask_matsize = (doubled_num_patches, patchsize[0], patchsize[1], 1)
+        #t1_matsize = (doubled_num_patches,
+          #            patchsize[0], patchsize[1], num_channels)
+        Mask_matsize = (quad_num_patches, patchsize[0], patchsize[1],1)
+        #Mask_matsize = (doubled_num_patches, patchsize[0], patchsize[1], 1)
         # flair_matsize = (doubled_num_patches, patchsize[0], patchsize[1], num_channels)
     elif plane == "sagittal":
         t1_matsize = (doubled_num_patches,
@@ -309,8 +329,8 @@ def CreatePatchesForTraining(atlasdir, plane, patchsize, max_patch=150000, num_c
     # flairpatches = np.zeros(flair_matsize, dtype=np.float16)
     MaskPatches = np.zeros(Mask_matsize, dtype=np.float16)
 
-    indices = [x for x in range(doubled_num_patches)]
-    #indices = [x for x in range(quad_num_patches)]
+    #indices = [x for x in range(doubled_num_patches)]
+    indices = [x for x in range(quad_num_patches)]
     indices = shuffle(indices, random_state=0)
     cur_idx = 0
 
