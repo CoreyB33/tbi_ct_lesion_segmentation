@@ -69,18 +69,18 @@ if __name__ == "__main__":
 
     src_dir, filename = os.path.split(results.INFILE)
 
-    preprocess.preprocess(filename,
-                          src_dir=src_dir,
-                          dst_dir=PREPROCESSING_DIR,
-                          tmp_dir=TMPDIR,
-                          verbose=0,
-                          skullstrip_script_path=SKULLSTRIP_SCRIPT_PATH,
-                          remove_tmp_files=True)
+    #preprocess.preprocess(filename,
+     #                     src_dir=src_dir,
+      #                    dst_dir=PREPROCESSING_DIR,
+       #                   tmp_dir=TMPDIR,
+        #                  verbose=0,
+         #                 skullstrip_script_path=SKULLSTRIP_SCRIPT_PATH,
+          #                remove_tmp_files=True)
 
     ######################## SEGMENT FILE ########################
 
     # load nifti file data
-    nii_obj = nib.load(os.path.join(PREPROCESSING_DIR, filename))
+    nii_obj = nib.load(os.path.join(DATA_DIR, filename))
     nii_img = nii_obj.get_data()
     header = nii_obj.header
     affine = nii_obj.affine
