@@ -107,7 +107,7 @@ if __name__ == "__main__":
     #utils.threshold(filename, REORIENT_DIR, REORIENT_DIR, 0.5)
 
     # move and rename file to target directory
-    src_mask = os.path.join(REORIENT_DIR, filename)
+    src_mask = os.path.join(SEG_DIR, filename)
     dst_mask = os.path.join(DATA_DIR, filename[:filename.find(".nii.gz")] + "_predicted_mask.nii.gz")
     shutil.move(src_mask, dst_mask)
 
