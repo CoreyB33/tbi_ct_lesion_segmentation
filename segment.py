@@ -80,7 +80,7 @@ if __name__ == "__main__":
     ######################## SEGMENT FILE ########################
 
     # load nifti file data
-    nii_obj = nib.load(os.path.join(DATA_DIR, filename))
+    nii_obj = nib.load(os.path.join(src_dir, filename))
     nii_img = nii_obj.get_data()
     header = nii_obj.header
     affine = nii_obj.affine
