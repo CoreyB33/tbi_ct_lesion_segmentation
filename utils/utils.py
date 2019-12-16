@@ -348,8 +348,8 @@ def write_stats(filename, nii_obj, nii_obj_gt, stats_file, threshold=0.5):
         largest_contig_hematoma_vol_mm = 0
 
     # remove small lesions
-    smallest_lesion_size = 27 
-    thresh_data = morphology.remove_small_objects(label, smallest_lesion_size)
+    #smallest_lesion_size = 27 
+    #thresh_data = morphology.remove_small_objects(label, smallest_lesion_size)
     # turn results back into binary values
     thresh_data[np.where(thresh_data < threshold)] = 0
     thresh_data[np.where(thresh_data >= threshold)] = 1
