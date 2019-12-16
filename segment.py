@@ -99,12 +99,12 @@ if __name__ == "__main__":
     nib.save(segmented_nii_obj, segmented_filename)
 
     # Reorient back to original before comparisons
-    print("Reorienting...")
-    utils.reorient(filename, src_dir, SEG_DIR)
+    #print("Reorienting...")
+    #utils.reorient(filename, src_dir, SEG_DIR)
 
     # get probability volumes and threshold image
-    print("Thresholding...")
-    utils.threshold(filename, REORIENT_DIR, REORIENT_DIR, 0.5)
+    #print("Thresholding...")
+    #utils.threshold(filename, REORIENT_DIR, REORIENT_DIR, 0.5)
 
     # move and rename file to target directory
     src_mask = os.path.join(REORIENT_DIR, filename)
