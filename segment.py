@@ -112,11 +112,11 @@ if __name__ == "__main__":
     shutil.move(src_mask, dst_mask)
 
     # remove intermediate files
-    if os.path.exists(TMPDIR):
-        shutil.rmtree(TMPDIR)
-    if os.path.exists(PREPROCESSING_DIR):
-        shutil.rmtree(PREPROCESSING_DIR)
-    if os.path.exists(SEG_DIR):
-        shutil.rmtree(SEG_DIR)
+    #if os.path.exists(TMPDIR):
+     #   shutil.rmtree(TMPDIR)
+    #if os.path.exists(PREPROCESSING_DIR):
+     #   shutil.rmtree(PREPROCESSING_DIR)
+    #if os.path.exists(SEG_DIR):
+     #   shutil.rmtree(SEG_DIR)
 
     K.clear_session()
