@@ -164,14 +164,12 @@ def get_patches(invols, mask, patchsize, maxpatch, num_channels):
                              shuffled_healthy_brain_indices], axis=1)
     #t1_matsize=(4*num...
     t1_matsize = (2*num_patches, patchsize[0], patchsize[1], num_channels)
-    flair_matsize = (2*num_patches, patchsize[0], patchsize[1], num_channels)
     #Mask_matsize=(4*num...
     Mask_matsize = (2*num_patches, patchsize[0], patchsize[1], 1)
     #t1_matsize_unrotated = (2*num_patches, patchsize[0], patchsize[1],num_channels)
     #Mask_matsize_unrotated = (2*num_patches, patchsize[0], patchsize[1], 1)
 
     t1Patches = np.ndarray(t1_matsize, dtype=np.float16)
-    flairPatches = np.ndarray(flair_matsize, dtype=np.float16)
     MaskPatches = np.ndarray(Mask_matsize, dtype=np.float16)
 
     for i in range(0, 2*num_patches):
@@ -191,9 +189,6 @@ def get_patches(invols, mask, patchsize, maxpatch, num_channels):
             t1Patches[i, :, :, c] = invols[c][I - dsize[0]: I + dsize[0],
                                               J - dsize[1]: J + dsize[1],
                                               K]
-            flairPatches[i, :, :, c] = invols[c][I - dsize[0]: I + dsize[0],
-                                                 J - dsize[1]: J + dsize[1],
-                                                 K]
 
         '''
         MaskPatches[i, :, :, 0] = mask[I - dsize[0]: I + dsize[0] + 1,
@@ -257,13 +252,12 @@ def get_patches(invols, mask, patchsize, maxpatch, num_channels):
     #    MaskPatches[i+2*num_patches,:,:,0] = MaskPatch_rotated 
 
     t1Patches = np.asarray(t1Patches, dtype=np.float16)
-    flairPatches = np.asarray(flairPatches, dtype=np.float16)
     MaskPatches = np.asarray(MaskPatches, dtype=np.float16)
 
-    return t1Patches, flairPatches, MaskPatches
+    return t1Patches, MaskPatches
 
 
-def CreatePatchesForTraining(atlasdir, plane, patchsize, max_patch=150000, num_channels=1):
+def CreatePatchesForTraining(atlasdir, plane, patchsize, max_patch=150000, num_channels=2):
     '''
 
     Params:
@@ -384,20 +378,18 @@ def CreatePatchesForTraining(atlasdir, plane, patchsize, max_patch=150000, num_c
                 patchsize = (patchsize[0], t1.shape[1]//4)
         patchsize = np.asarray(patchsize, dtype=int)
 
-        t1PatchesA, flairPatchesA, MaskPatchesA = get_patches(invols,
+        t1PatchesA, MaskPatchesA = get_patches(invols,
                                                mask,
                                                patchsize,
                                                single_subject_num_patches,
                                                num_channels,)
 
         t1PatchesA = np.asarray(t1PatchesA, dtype=np.float16)
-        flairPatchesA = np.asarray(flairPatchesA, dtype=np.float16)
         MaskPatchesA = np.asarray(MaskPatchesA, dtype=np.float16)
 
-        for t1_patch, flair_patch, mask_patch in zip(t1PatchesA, flairPatchesA, MaskPatchesA):
+        for t1_patch, mask_patch in zip(t1PatchesA, MaskPatchesA):
             t1Patches[indices[cur_idx], :, :, :] = t1_patch
-            flairPatches[indices[cur_idx], :, :, :] = flair_patch
             MaskPatches[indices[cur_idx], :, :, :] = mask_patch
             cur_idx += 1
 
-    return (t1Patches, flairPatches, MaskPatches)
+    return (t1Patches, MaskPatches)
