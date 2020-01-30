@@ -394,7 +394,7 @@ def CreatePatchesForTraining(atlasdir, plane, patchsize, max_patch=150000, num_c
         flairPatchesA = np.asarray(flairPatchesA, dtype=np.float16)
         MaskPatchesA = np.asarray(MaskPatchesA, dtype=np.float16)
 
-        for t1_patch, mask_patch in zip(t1PatchesA, MaskPatchesA):
+        for t1_patch, mask_patch in zip(t1PatchesA, flairPatchesA, MaskPatchesA):
             t1Patches[indices[cur_idx], :, :, :] = t1_patch
             flairPatches[indices[cur_idx], :, :, :] = flair_patch
             MaskPatches[indices[cur_idx], :, :, :] = mask_patch
