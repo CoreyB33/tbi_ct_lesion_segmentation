@@ -131,8 +131,8 @@ if __name__ == "__main__":
         t1_patches.shape, mask_patches.shape))
 
     ######### TRAINING #########
-    history = model.fit(t1_patches,
-                        flair_patches,
+    history = model.fit([t1_patches,
+                        flair_patches],
                         mask_patches,
                         batch_size=batch_size,
                         epochs=num_epochs,
