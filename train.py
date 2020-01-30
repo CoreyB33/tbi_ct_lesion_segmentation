@@ -118,7 +118,7 @@ if __name__ == "__main__":
        #                       SKULLSTRIP_SCRIPT_PATH,)
 
     ######### DATA IMPORT #########
-    t1_patches, mask_patches = patch_ops.CreatePatchesForTraining(
+    t1_patches, flair_patches, mask_patches = patch_ops.CreatePatchesForTraining(
         atlasdir=DATA_DIR,
         plane=plane,
         patchsize=PATCH_SIZE,
@@ -132,6 +132,7 @@ if __name__ == "__main__":
 
     ######### TRAINING #########
     history = model.fit(t1_patches,
+                        flair_patches,
                         mask_patches,
                         batch_size=batch_size,
                         epochs=num_epochs,
