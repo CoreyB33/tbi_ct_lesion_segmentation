@@ -329,7 +329,7 @@ def CreatePatchesForTraining(atlasdir, plane, patchsize, max_patch=150000, num_c
 
 
     t1Patches = np.zeros(t1_matsize, dtype=np.float16)
-    flairpatches = np.zeros(flair_matsize, dtype=np.float16)
+    flairPatches = np.zeros(flair_matsize, dtype=np.float16)
     MaskPatches = np.zeros(Mask_matsize, dtype=np.float16)
 
     indices = [x for x in range(doubled_num_patches)]
