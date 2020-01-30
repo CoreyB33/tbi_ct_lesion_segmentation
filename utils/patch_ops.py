@@ -260,7 +260,7 @@ def get_patches(invols, mask, patchsize, maxpatch, num_channels):
     flairPatches = np.asarray(flairPatches, dtype=np.float16)
     MaskPatches = np.asarray(MaskPatches, dtype=np.float16)
 
-    return t1Patches, MaskPatches
+    return t1Patches, flairPatches, MaskPatches
 
 
 def CreatePatchesForTraining(atlasdir, plane, patchsize, max_patch=150000, num_channels=1):
