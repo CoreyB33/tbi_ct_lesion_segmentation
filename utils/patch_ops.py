@@ -257,7 +257,7 @@ def get_patches(invols, mask, patchsize, maxpatch, num_channels):
     return t1Patches, MaskPatches
 
 
-def CreatePatchesForTraining(atlasdir, plane, patchsize, max_patch=150000, num_channels=2):
+def CreatePatchesForTraining(atlasdir, plane, patchsize, max_patch=150000, num_channels=1):
     '''
 
     Params:
@@ -368,7 +368,7 @@ def CreatePatchesForTraining(atlasdir, plane, patchsize, max_patch=150000, num_c
         flair = np.transpose(flair, axes=planar_code)
         mask = np.transpose(mask, axes=planar_code)
 
-        invols = [t1, flair]  # can handle multichannel here
+        invols = [t1]  # can handle multichannel here
 
         # adjusting patch size after transpose
         if planar_code != planar_codes["axial"]:
