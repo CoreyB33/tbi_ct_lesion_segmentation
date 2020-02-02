@@ -166,8 +166,8 @@ def get_patches(invols, mask, patchsize, maxpatch, num_channels):
     t1_matsize = (4*num_patches, patchsize[0], patchsize[1], num_channels)
     #Mask_matsize=(4*num...
     Mask_matsize = (4*num_patches, patchsize[0], patchsize[1], 1)
-    #t1_matsize_unrotated = (2*num_patches, patchsize[0], patchsize[1],num_channels)
-    #Mask_matsize_unrotated = (2*num_patches, patchsize[0], patchsize[1], 1)
+    t1_matsize_unrotated = (2*num_patches, patchsize[0], patchsize[1],num_channels)
+    Mask_matsize_unrotated = (2*num_patches, patchsize[0], patchsize[1], 1)
 
     t1Patches = np.ndarray(t1_matsize, dtype=np.float16)
     MaskPatches = np.ndarray(Mask_matsize, dtype=np.float16)
