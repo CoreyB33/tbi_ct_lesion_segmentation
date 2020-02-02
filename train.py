@@ -4,8 +4,8 @@ import numpy as np
 import os
 from subprocess import Popen, PIPE
 import sys
-#import rotation
-#from rotation import rotateit
+import rotation
+from rotation import rotateit
 
 from utils import utils, patch_ops
 from utils import preprocess
