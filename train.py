@@ -129,17 +129,36 @@ if __name__ == "__main__":
     print("Num patches:", len(t1_patches))
     print("t1_patches shape: {}\nmask_patches shape: {}".format(
         t1_patches.shape, mask_patches.shape))
+    
+import matplotlib
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib import cm
+from aug_script import t1Patches, MaskPatches
+t1_patch_1 = t1Patches[100,:,:,0]
+mask_patch_1 = MaskPatches[100,:,:,0]
+matplotlib.image.imsave('t1_patch.png',t1_patch_1,cmap='Greys')
+matplotlib.image.imsave('mask_patch.png',mask_patch_1)
+t1_patch_2 = t1Patches[2100,:,:,0]
+mask_patch_2 = MaskPatches[2100,:,:,0]
+matplotlib.image.imsave('t1_patch_healthy.png',t1_patch_2,cmap='Greys')
+matplotlib.image.imsave('mask_patch_healthy.png',mask_patch_2)
+t1_patch_rotate = t1Patches[5123,:,:,0]
+mask_patch_rotate = MaskPatches[5123,:,:,0]
+matplotlib.image.imsave('t1_patch_rotate.png',t1_patch_rotate,cmap='Greys')
+matplotlib.image.imsave('mask_patch_rotate.png',mask_patch_rotate)
+
 
     ######### TRAINING #########
-    history = model.fit(t1_patches,
-                        mask_patches,
-                        batch_size=batch_size,
-                        epochs=num_epochs,
-                        verbose=1,
-                        validation_split=0.2,
-                        callbacks=callbacks_list,)
+#    history = model.fit(t1_patches,
+ #                       mask_patches,
+  #                      batch_size=batch_size,
+   #                     epochs=num_epochs,
+    #                    verbose=1,
+     #                   validation_split=0.2,
+      #                  callbacks=callbacks_list,)
 
-    with open(HISTORY_PATH, 'w') as f:
-        json.dump(history.history, f)
+    #with open(HISTORY_PATH, 'w') as f:
+     #   json.dump(history.history, f)
 
-    K.clear_session()
+    #K.clear_session()
