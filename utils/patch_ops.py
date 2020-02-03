@@ -242,12 +242,12 @@ def get_patches(invols, mask, patchsize, maxpatch, num_channels):
         MaskPatch_unrotated=MaskPatch_unrotated.astype('float64')
         MaskPatch_rotated=rotateit(MaskPatch_unrotated,5)
         MaskPatch_rotated=MaskPatch_rotated.astype('float16')
-        for i in range(0,64):
-            for j in range(0,64):
-                if MaskPatch_rotated[i,j]>0.35:
-                    MaskPatch_rotated[i,j]=1
-                else:
-                    MaskPatch_rotated[i,j]=0
+        #for i in range(0,64):
+         #   for j in range(0,64):
+          #      if MaskPatch_rotated[i,j]>0.35:
+           #         MaskPatch_rotated[i,j]=1
+            #    else:
+             #       MaskPatch_rotated[i,j]=0
         
         MaskPatches[i+2*num_patches,:,:,0] = MaskPatch_rotated 
 
