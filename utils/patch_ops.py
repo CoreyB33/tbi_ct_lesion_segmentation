@@ -11,7 +11,7 @@ from time import strftime, time
 
 #import rotation
 #from rotation import rotateit
-##from scipy.ndimage.interpolation import rotate
+from scipy.ndimage.interpolation import rotate
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import sys
@@ -204,53 +204,53 @@ def get_patches(invols, mask, patchsize, maxpatch, num_channels):
                                        J - dsize[1]:J + dsize[1],
                                        K]
     # Augmentation
-    ##for i in range(0, 2*num_patches):
-     ##   I = newidx[0, i]
-      ##  J = newidx[1, i]
-       ## K = newidx[2, i]
-        ##a=np.random.uniform(-30,30)
-        ##a_rad=a*math.pi/180
+    for i in range(0, 2*num_patches):
+        I = newidx[0, i]
+        J = newidx[1, i]
+        K = newidx[2, i]
+        a=np.random.uniform(-30,30)
+        a_rad=a*math.pi/180
         
 
-        ##for c in range(num_channels):
-        #    '''
-         #   CTPatches[i, :, :, c] = invols[c][I - dsize[0]: I + dsize[0] + 1,
-          #                                    J - dsize[1]: J + dsize[1] + 1,
-           #                                   K]
-            #'''
+        for c in range(num_channels):
+            '''
+            CTPatches[i, :, :, c] = invols[c][I - dsize[0]: I + dsize[0] + 1,
+                                              J - dsize[1]: J + dsize[1] + 1,
+                                              K]
+            '''
 
             ## trying even-sided patches
-            #t1Patch_unrotated = invols[c][I - dsize[0]: I + dsize[0],
-             #                                 J - dsize[1]: J + dsize[1],
-              #                                K]
+            t1Patch_unrotated = invols[c][I - dsize[0]: I + dsize[0],
+                                              J - dsize[1]: J + dsize[1],
+                                              K]
             
-            ##t1Patch_unrotated=t1Patch_unrotated.astype('float64')
-            ##t1Patch_rotated=rotate(t1Patch_unrotated,a,reshape=False,mode='nearest')
-            ##t1Patch_rotated=t1Patch_rotated.astype('float16')
+            t1Patch_unrotated=t1Patch_unrotated.astype('float64')
+            t1Patch_rotated=rotate(t1Patch_unrotated,a,reshape=False,mode='nearest')
+            t1Patch_rotated=t1Patch_rotated.astype('float16')
             
             #t1Patch_unrotated=t1Patch_unrotated.astype('float64')
             #t1Patch_rotated=rotateit(t1Patch_unrotated,5)
             #t1Patch_rotated=t1Patch_rotated.astype('float16')
             
-            #t1Patches[i+2*num_patches,:,:,c] = t1Patch_rotated
+            t1Patches[i+2*num_patches,:,:,c] = t1Patch_rotated
             # flairPatches[i, :, :, c] = invols[c][I - dsize[0]: I + dsize[0],
               #                                   J - dsize[1]: J + dsize[1],
                #                                  K]
 
-        #'''
-        #MaskPatches[i, :, :, 0] = mask[I - dsize[0]: I + dsize[0] + 1,
-         #                              J - dsize[1]:J + dsize[1] + 1,
-          #                             K]
-        #'''
+        '''
+        MaskPatches[i, :, :, 0] = mask[I - dsize[0]: I + dsize[0] + 1,
+                                       J - dsize[1]:J + dsize[1] + 1,
+                                       K]
+        '''
         # trying even-sided patches
         # First half of patches have lesions and second half do not (at the center)
-        ##MaskPatch_unrotated = mask[I - dsize[0]: I + dsize[0],
-         ##                               J - dsize[1]:J + dsize[1],
-           ##                             K]
+        MaskPatch_unrotated = mask[I - dsize[0]: I + dsize[0],
+                                        J - dsize[1]:J + dsize[1],
+                                        K]
         
-        ##MaskPatch_unrotated=MaskPatch_unrotated.astype('float64')
-        ##MaskPatch_rotated=rotate(MaskPatch_unrotated,a,reshape=False,mode='nearest')
-        ##MaskPatch_rotated=MaskPatch_rotated.astype('float16')
+        MaskPatch_unrotated=MaskPatch_unrotated.astype('float64')
+        MaskPatch_rotated=rotate(MaskPatch_unrotated,a,reshape=False,mode='nearest')
+        MaskPatch_rotated=MaskPatch_rotated.astype('float16')
         
         #MaskPatch_unrotated=MaskPatch_unrotated.astype('float64')
         #MaskPatch_rotated=rotateit(MaskPatch_unrotated,5)
@@ -262,7 +262,7 @@ def get_patches(invols, mask, patchsize, maxpatch, num_channels):
             #    else:
              #       MaskPatch_rotated[m,n]=0
         
-        ##MaskPatches[i+2*num_patches,:,:,0] = MaskPatch_rotated 
+        MaskPatches[i+2*num_patches,:,:,0] = MaskPatch_rotated 
 
     t1Patches = np.asarray(t1Patches, dtype=np.float16)
     MaskPatches = np.asarray(MaskPatches, dtype=np.float16)
