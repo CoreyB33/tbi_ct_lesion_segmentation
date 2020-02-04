@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import sys
 import tensorflow as tf
-tf.compat.v1.enable_eager_execution()
+#tf.compat.v1.enable_eager_execution()
 
 def PadImage(vol, padsize):
     dim = vol.shape
