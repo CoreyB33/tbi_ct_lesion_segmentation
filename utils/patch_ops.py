@@ -6,6 +6,7 @@ from tqdm import tqdm
 from .pad import pad_image
 import random
 import copy
+import math
 from time import strftime, time
 
 import rotation
@@ -14,7 +15,8 @@ from rotation import rotateit
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import sys
-
+import tensorflow as tf
+tf.compat.v1.enable_eager_execution()
 
 def PadImage(vol, padsize):
     dim = vol.shape
@@ -205,6 +207,8 @@ def get_patches(invols, mask, patchsize, maxpatch, num_channels):
         I = newidx[0, i]
         J = newidx[1, i]
         K = newidx[2, i]
+        a=np.random.uniform(-30,30)
+        a_rad=a*math.pi/180
         
 
         for c in range(num_channels):
@@ -219,9 +223,15 @@ def get_patches(invols, mask, patchsize, maxpatch, num_channels):
                                               J - dsize[1]: J + dsize[1],
                                               K]
             
-            t1Patch_unrotated=t1Patch_unrotated.astype('float64')
-            t1Patch_rotated=rotateit(t1Patch_unrotated,5)
-            t1Patch_rotated=t1Patch_rotated.astype('float16')
+            t1Patch_rotated=tf.contrib.image.rotate(
+                t1Patch_unrotated,
+                a_rad,
+                interpolation='NEAREST'
+            )
+            
+            #t1Patch_unrotated=t1Patch_unrotated.astype('float64')
+            #t1Patch_rotated=rotateit(t1Patch_unrotated,5)
+            #t1Patch_rotated=t1Patch_rotated.astype('float16')
             
             t1Patches[i+2*num_patches,:,:,c] = t1Patch_rotated
             # flairPatches[i, :, :, c] = invols[c][I - dsize[0]: I + dsize[0],
@@ -239,9 +249,15 @@ def get_patches(invols, mask, patchsize, maxpatch, num_channels):
                                         J - dsize[1]:J + dsize[1],
                                         K]
         
-        MaskPatch_unrotated=MaskPatch_unrotated.astype('float64')
-        MaskPatch_rotated=rotateit(MaskPatch_unrotated,5)
-        MaskPatch_rotated=MaskPatch_rotated.astype('float16')
+        MaskPatch_rotated=tf.contrib.image.rotate(
+            MaskPatch_unrotated,
+            a_rad,
+            interpolation='NEAREST'
+        )
+        
+        #MaskPatch_unrotated=MaskPatch_unrotated.astype('float64')
+        #MaskPatch_rotated=rotateit(MaskPatch_unrotated,5)
+        #MaskPatch_rotated=MaskPatch_rotated.astype('float16')
         #for m in range(0,64):
          #   for n in range(0,64):
           #      if MaskPatch_rotated[m,n]>0.55:
