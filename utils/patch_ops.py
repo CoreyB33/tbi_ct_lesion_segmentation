@@ -245,8 +245,8 @@ def get_patches(invols, mask, patchsize, maxpatch, num_channels):
         # trying even-sided patches
         # First half of patches have lesions and second half do not (at the center)
         ##MaskPatch_unrotated = mask[I - dsize[0]: I + dsize[0],
-                                        J - dsize[1]:J + dsize[1],
-                                        K]
+         ##                               J - dsize[1]:J + dsize[1],
+           ##                             K]
         
         ##MaskPatch_unrotated=MaskPatch_unrotated.astype('float64')
         ##MaskPatch_rotated=rotate(MaskPatch_unrotated,a,reshape=False,mode='nearest')
