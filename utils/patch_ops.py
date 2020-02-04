@@ -165,9 +165,9 @@ def get_patches(invols, mask, patchsize, maxpatch, num_channels):
     newidx = np.concatenate([shuffled_mask_lesion_indices,
                              shuffled_healthy_brain_indices], axis=1)
     #t1_matsize=(4*num...
-    t1_matsize = (2*num_patches, patchsize[0], patchsize[1], num_channels)
+    t1_matsize = (4*num_patches, patchsize[0], patchsize[1], num_channels)
     #Mask_matsize=(4*num...
-    Mask_matsize = (2*num_patches, patchsize[0], patchsize[1], 1)
+    Mask_matsize = (4*num_patches, patchsize[0], patchsize[1], 1)
     t1_matsize_unrotated = (2*num_patches, patchsize[0], patchsize[1],num_channels)
     Mask_matsize_unrotated = (2*num_patches, patchsize[0], patchsize[1], 1)
 
