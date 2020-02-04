@@ -223,11 +223,13 @@ def get_patches(invols, mask, patchsize, maxpatch, num_channels):
                                               J - dsize[1]: J + dsize[1],
                                               K]
             
-            t1Patch_rotated=tf.contrib.image.rotate(
+            tf1img=tf.contrib.image.rotate(
                 t1Patch_unrotated,
                 a_rad,
                 interpolation='NEAREST'
             )
+            
+            t1Patch_rotated=sess.run(tf1img)
             
             #t1Patch_unrotated=t1Patch_unrotated.astype('float64')
             #t1Patch_rotated=rotateit(t1Patch_unrotated,5)
@@ -249,11 +251,13 @@ def get_patches(invols, mask, patchsize, maxpatch, num_channels):
                                         J - dsize[1]:J + dsize[1],
                                         K]
         
-        MaskPatch_rotated=tf.contrib.image.rotate(
+        tf2img=tf.contrib.image.rotate(
             MaskPatch_unrotated,
             a_rad,
             interpolation='NEAREST'
         )
+        
+        MaskPatch_rotated=sess.run(tf2img)
         
         #MaskPatch_unrotated=MaskPatch_unrotated.astype('float64')
         #MaskPatch_rotated=rotateit(MaskPatch_unrotated,5)
