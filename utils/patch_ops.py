@@ -9,9 +9,9 @@ import copy
 import math
 from time import strftime, time
 
-import rotation
-from rotation import rotateit
-
+#import rotation
+#from rotation import rotateit
+import scipy.ndimage.interpolation import rotate
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import sys
@@ -224,13 +224,9 @@ def get_patches(invols, mask, patchsize, maxpatch, num_channels):
                                               J - dsize[1]: J + dsize[1],
                                               K]
             
-            tf1img=tf.contrib.image.rotate(
-                t1Patch_unrotated,
-                a_rad,
-                interpolation='NEAREST'
-            )
-            
-            t1Patch_rotated=sess.run(tf1img)
+            t1Patch_unrotated=t1Patch_unrotated.astype('float64')
+            t1Patch_rotated=rotate(t1Patch_unrotated,a,reshape=False,mode='nearest')
+            t1Patch_rotated=t1Patch_rotated.astype('float16')
             
             #t1Patch_unrotated=t1Patch_unrotated.astype('float64')
             #t1Patch_rotated=rotateit(t1Patch_unrotated,5)
@@ -252,13 +248,9 @@ def get_patches(invols, mask, patchsize, maxpatch, num_channels):
                                         J - dsize[1]:J + dsize[1],
                                         K]
         
-        tf2img=tf.contrib.image.rotate(
-            MaskPatch_unrotated,
-            a_rad,
-            interpolation='NEAREST'
-        )
-        
-        MaskPatch_rotated=sess.run(tf2img)
+        MaskPatch_unrotated=MaskPatch_unrotated.astype('float64')
+        MaskPatch_rotated=rotate(MaskPatch_unrotated,a,reshape=False,mode='nearest')
+        MaskPatch_rotated=MaskPatch_rotated.astype('float16')
         
         #MaskPatch_unrotated=MaskPatch_unrotated.astype('float64')
         #MaskPatch_rotated=rotateit(MaskPatch_unrotated,5)
