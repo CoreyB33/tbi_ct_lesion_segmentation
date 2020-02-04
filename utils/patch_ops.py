@@ -174,7 +174,7 @@ def get_patches(invols, mask, patchsize, maxpatch, num_channels):
     t1Patches = np.ndarray(t1_matsize, dtype=np.float16)
     MaskPatches = np.ndarray(Mask_matsize, dtype=np.float16)
     
-    sess=tf.InteractiveSession()
+    #sess=tf.InteractiveSession()
     for i in range(0, 2*num_patches):
         I = newidx[0, i]
         J = newidx[1, i]
