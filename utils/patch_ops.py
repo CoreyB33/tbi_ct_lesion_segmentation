@@ -11,7 +11,7 @@ from time import strftime, time
 
 #import rotation
 #from rotation import rotateit
-import scipy.ndimage.interpolation import rotate
+from scipy.ndimage.interpolation import rotate
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import sys
