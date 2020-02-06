@@ -301,7 +301,7 @@ def CreatePatchesForTraining(atlasdir, plane, patchsize, max_patch=150000, num_c
     print("Allowed total number of patches =", total_num_patches)
 
     # note here we double the size of the tensors to allow for healthy patches too
-    #doubled_num_patches = total_num_patches * 2
+    doubled_num_patches = total_num_patches * 2
     quad_num_patches = doubled_num_patches * 2
     if plane == "axial":
         t1_matsize = (quad_num_patches,
