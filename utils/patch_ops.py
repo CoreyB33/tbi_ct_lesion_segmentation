@@ -15,7 +15,7 @@ from scipy.ndimage.interpolation import rotate
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import sys
-import tensorflow as tf
+#import tensorflow as tf
 #tf.compat.v1.enable_eager_execution()
 
 def PadImage(vol, padsize):
