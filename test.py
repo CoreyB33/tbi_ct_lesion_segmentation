@@ -96,7 +96,7 @@ if __name__ == "__main__":
                  if not os.path.isdir(os.path.join(DATA_DIR, x))]
     masks = [x for x in filenames if "pvs" in x]
     # Using 4D file instead of just t1, if using just t1, use "t1" instead of "multi"
-    filenames = [x for x in filenames if "t1_masked" in x]
+    filenames = [x for x in filenames if "multi" in x]
     
 
     filenames.sort()
@@ -131,7 +131,7 @@ if __name__ == "__main__":
 
         # pad and reshape to account for implicit "1" channel
         # Uncomment if using just t1
-        nii_img = np.reshape(nii_img, nii_img.shape + (1,))
+        #nii_img = np.reshape(nii_img, nii_img.shape + (1,))
         orig_shape = nii_img.shape
 
         #print("nii img shape from test.py= {}".format(nii_img.shape))
