@@ -133,7 +133,7 @@ if __name__ == "__main__":
         # Uncomment if using just t1
         #nii_img = np.reshape(nii_img, nii_img.shape + (1,))
         #nii_img = np.reshape(nii_img, nii_img.shape)
-        #orig_shape = nii_img.shape
+        orig_shape = nii_img.shape
 
         print("nii img shape from test.py= {}".format(nii_img.shape))
         
