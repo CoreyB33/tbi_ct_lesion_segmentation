@@ -476,9 +476,9 @@ def threshold(filename, src_dir, dst_dir, threshold=0.5):
     img_data[np.where(img_data >= threshold)] = 1
 
     # remove small segmentation areas
-    label = measure.label(img_data)
-    smallest_lesion_size = 27 
-    img_data = morphology.remove_small_objects(label, smallest_lesion_size)
+    #label = measure.label(img_data)
+    #smallest_lesion_size = 27 
+    #img_data = morphology.remove_small_objects(label, smallest_lesion_size)
     # turn results back into binary values
     img_data[np.where(img_data < threshold)] = 0
     img_data[np.where(img_data >= threshold)] = 1
